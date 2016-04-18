@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "nodemon --watch main.js --watch frontend/app.js --exec 'electron' main.js & gulp sass:watch"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,15 @@
   },
   "homepage": "https://github.com/electron/electron-quick-start#readme",
   "devDependencies": {
-    "electron-prebuilt": "^0.37.0"
+    "electron-prebuilt": "^0.37.0",
+    "gulp": "^3.9.1",
+    "gulp-electron": "0.0.17",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "nodemon": "^1.9.1"
+  },
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6"
   }
 }

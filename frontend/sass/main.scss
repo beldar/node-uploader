@@ -1,0 +1,42 @@
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+
+$dropbg: rgb(191, 191, 191);
+
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &.dropzone {
+    border: 5px dashed gray;
+    background: $dropbg;
+
+    &.enter {
+      background: lighten($dropbg, 15%);
+    }
+  }
+}
+
+#getname, #dropzone {
+  visibility: hidden;
+  display: none;
+  width: 80%;
+
+  &.show {
+    display: block;
+    visibility: visible;
+  }
+}
+
+#dropzone {
+  text-align: center;
+}
