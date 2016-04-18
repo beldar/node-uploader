@@ -1,3 +1,5 @@
+const knox = require('knox');
+
 const App = {
   init() {
     this.dropzone = document.getElementById('dropzone');
@@ -10,7 +12,16 @@ const App = {
       this.username = false;
     }
 
+    this.setUpS3();
     this.show();
+  },
+
+  setUpS3() {
+    this.client = knox.createClient({
+        key: ''
+      , secret: ''
+      , bucket: 'boda-marti-anna'
+    });
   },
 
   show() {
@@ -48,18 +59,48 @@ const App = {
       this.wrapper.classList.remove('enter');
       return false;
     });
-    
+
     this.wrapper.addEventListener('drop', (e) => {
       e.preventDefault();
 
-      // fetch FileList object
-      var files = e.target.files || e.dataTransfer.files;
+      let files = e.target.files || e.dataTransfer.files;
 
-      console.log(files);
+      this.files = files;
+
+      this.uploadFiles();
 
       return false;
 
     });
+  },
+
+  uploadFiles() {
+    let files = this.files;
+
+    for (var i = 0; i < files.length; i++) {
+        file = files[i];
+        this.uploadFile(file);
+        console.log(file);
+    }
+  },
+
+  uploadFile(file) {
+    if (! this.username) return;
+
+    let path = this.username.trim().replace(' ', '-') + '/' + file.name.trim().replace(' ', '-');
+
+    console.log('Upload to: ' + path);
+
+    let req = this.client.putFile(file.path, path, function(err, res){
+      // Always either do something with `res` or at least call `res.resume()`.
+      if (err) {
+        console.error('Error', err);
+      } else {
+        console.log(res)
+      }
+    });
+
+    req.on('progress', (e) => console.log(e))
   }
 };
 
