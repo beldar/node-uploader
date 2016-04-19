@@ -1,4 +1,6 @@
 const knox = require('knox');
+const fs = require('fs');
+const dir = require('node-dir');
 
 const App = {
   init() {
@@ -18,8 +20,8 @@ const App = {
 
   setUpS3() {
     this.client = knox.createClient({
-        key: ''
-      , secret: ''
+        key: process.env.AWS_S3_KEY
+      , secret: process.env.AWS_S3_SECRET
       , bucket: 'boda-marti-anna'
     });
   },
@@ -52,6 +54,16 @@ const App = {
   },
 
   setDropzone() {
+    this.state = {
+      totalFiles: 0,
+      completedFiles: 0,
+      totalSize: 0,
+      completedSize: 0,
+      timeElapsed: 0
+    };
+
+    this.progressBar = document.getElementById('progress');
+
     this.wrapper.addEventListener('dragenter', () => this.wrapper.classList.add('enter'));
     this.wrapper.addEventListener('dragleave', () => this.wrapper.classList.remove('enter'));
     this.wrapper.addEventListener('dragover', (e) => {
@@ -79,6 +91,9 @@ const App = {
 
     for (var i = 0; i < files.length; i++) {
         file = files[i];
+        this.state.totalFiles++;
+        this.state.totalSize += file.size;
+
         this.uploadFile(file);
         console.log(file);
     }
@@ -87,20 +102,67 @@ const App = {
   uploadFile(file) {
     if (! this.username) return;
 
+    if (fs.lstatSync(file.path).isDirectory()) {
+      this.uploadDir(file);
+      return;
+    }
+
     let path = this.username.trim().replace(' ', '-') + '/' + file.name.trim().replace(' ', '-');
 
     console.log('Upload to: ' + path);
 
-    let req = this.client.putFile(file.path, path, function(err, res){
-      // Always either do something with `res` or at least call `res.resume()`.
-      if (err) {
-        console.error('Error', err);
-      } else {
-        console.log(res)
-      }
-    });
+    let req = this.client.putFile(file.path, path, this.fileDone);
 
-    req.on('progress', (e) => console.log(e))
+    req.on('progress', this.updateProgress);
+    req.on('response', this.fileCompleted);
+    req.on('error', this.fileFailed)
+  },
+
+  uploadDir(file) {
+    dir.files(file.path, (err, files) => {
+        if (err) throw err;
+        console.log(files);
+
+        files.forEach((path) => {
+          let stat = fs.lstatSync(path);
+          let name = this.getName(path);
+
+          this.state.totalFiles++;
+          this.state.totalSize += stat.size;
+
+          let file = {
+            name: name,
+            path: path
+          };
+
+          this.uploadFile(file);
+        });
+    });
+  },
+
+  updateProgress(e) {
+    console.log('Progress', e);
+    App.state.completedSize += e.written;
+
+    let percent = ((App.state.completedSize / App.state.totalSize) * 100).toFixed(2);
+
+    App.progressBar.style.width = percent + '%';
+  },
+
+  fileCompleted(e) {
+    console.log('File completed', e);
+  },
+
+  fileDone(err, res) {
+    console.log('File done', err, res);
+  },
+
+  fileFailed(e) {
+    console.error('File failed', e);
+  },
+
+  getName(path) {
+    return path.split('/').slice(-1)[0];
   }
 };
 

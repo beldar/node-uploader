@@ -29,13 +29,14 @@ html, body {
 #getname, #dropzone {
   visibility: hidden;
   display: none;
-  width: 80%;
 
   &.show {
     display: block;
     visibility: visible;
   }
 }
+
+#getname, #dropzone { width: 80%; }
 
 #dropzone {
   text-align: center;
