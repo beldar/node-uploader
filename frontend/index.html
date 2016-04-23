@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>The Wedding Uploader</title>
+    <link href="css/uiProgressButton.css" rel=stylesheet type=text/css>
     <link href="css/main.css" rel=stylesheet type=text/css>
   </head>
   <body>
@@ -29,17 +30,26 @@
       </div>
 
       <div id="dropzone">
-        <h1>Drop your files here!</h1>
-        <div id="status">
-          <div class="progress">
-            <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-              <span class="sr-only">0% completed</span>
-            </div>
-          </div>
+        <h1>Arrossega els arxius aquí!</h1>
+        <div id="confirm">
+          Estàs apunt de enviar <span id="filenum"></span> fitxers (<span id="filesize"></span>):
+          <ul id="fileList"></ul>
         </div>
+        <div id="status">
+          <div id="progressInfo"></div>
+          <div id="percent"></div>
+        </div>
+      </div>
+
+      <div id="fancyButton" class="progress-button elastic">
+        <button><span>Enviar</span></button>
+        <svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+        <svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+        <svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
       </div>
     </div>
 
+    <script src="js/uiProgressButton.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

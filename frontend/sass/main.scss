@@ -1,6 +1,7 @@
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
-$dropbg: rgb(191, 191, 191);
+$dropbg: #f9f9f9;
+$color: #62706c;
 
 
 html, body {
@@ -8,6 +9,10 @@ html, body {
   margin: 0;
   width: 100%;
   height: 100%;
+  background: $dropbg;
+	color: $color;
+	font-size: 100%;
+	line-height: 1.25;
 }
 
 #wrapper {
@@ -17,7 +22,7 @@ html, body {
   height: 100%;
 
   &.dropzone {
-    border: 5px dashed gray;
+    border: 5px dashed $color;
     background: $dropbg;
 
     &.enter {
@@ -26,7 +31,7 @@ html, body {
   }
 }
 
-#getname, #dropzone {
+#getname, #dropzone, #confirm {
   visibility: hidden;
   display: none;
 
@@ -40,4 +45,64 @@ html, body {
 
 #dropzone {
   text-align: center;
+  margin-bottom: 60px;
+
+  h1.hide {
+    display: none;
+  }
+
+  #fileList {
+    overflow: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin: 20px auto;
+    background: rgba(0,0,0,0.1);
+    text-align: left;
+    width: 400px;
+    max-height: 300px;
+    border-radius: 5px;
+
+    li {
+      position: relative;
+      padding: 10px;
+      margin: 0;
+      display: block;
+      z-index: 2;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+
+      &:last-of-child { border: none; }
+
+      small { float: right; }
+
+      .file-progress {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background: #1ECD97;
+        opacity: 0.4;
+
+        &.failed {
+          background: #FB797E;
+        }
+      }
+    }
+  }
+}
+
+
+.progress-button {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: none;
+
+  &.show {
+    display: inline-block;
+  }
 }
