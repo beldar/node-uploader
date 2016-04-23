@@ -14,7 +14,6 @@ const App = {
     this.dropzone     = document.getElementById('dropzone');
     this.getname      = document.getElementById('getname');
     this.wrapper      = document.getElementById('wrapper');
-    //this.progressBar  = document.getElementById('progress');
     this.progressInfo = document.getElementById('progressInfo');
     this.percent      = document.getElementById('percent');
     this.button       = document.getElementById('fancyButton');
@@ -24,7 +23,7 @@ const App = {
     this.fileNum      = document.getElementById('filenum');
     this.fileSize     = document.getElementById('filesize');
 
-    this.concurrentDownloads = 20;
+    this.concurrentDownloads = 100;
 
     if (localStorage.getItem('username')) {
       this.username = localStorage.getItem('username');
