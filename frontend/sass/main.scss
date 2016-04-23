@@ -75,6 +75,14 @@ html, body {
 
       small { float: right; }
 
+      .file-name {
+        width: 80%;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .file-progress {
         position: absolute;
         z-index: 1;

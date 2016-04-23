@@ -139,11 +139,11 @@
 					// add respective class to the element
 					classie.addClass( self.el, statusClass );
 					// after options.statusTime remove status and undraw the respective stroke. Also enable the button.
-					setTimeout( function() {
+					UIProgressButton.prototype.clear = function() {
 						classie.remove( self.el, statusClass );
 						statusEl.draw(0);
 						self._enable();
-					}, self.options.statusTime );
+					};
 				}
 				else {
 					self._enable();
