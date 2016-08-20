@@ -22,8 +22,10 @@ const App = {
     this.confirm      = document.getElementById('confirm');
     this.fileNum      = document.getElementById('filenum');
     this.fileSize     = document.getElementById('filesize');
+    this.success      = document.getElementById('success_screen');
 
     this.concurrentDownloads = 100;
+    this.percentVal = 0;
 
     if (localStorage.getItem('username')) {
       this.username = localStorage.getItem('username');
@@ -358,6 +360,14 @@ const App = {
 
       console.log('Completed?', completed);
 
+      if (this.percentVal == 100.00) {
+        let totalFiles = Object.keys(this.state.files).length;
+        this.percent.innerHTML = `Comprovant arxius: ${downloading}`;
+        let percent = (((totalFiles-downloading)/totalFiles)).toFixed(4);
+        console.log('Percent', percent);
+        this.uiButton.setProgress(percent);
+      }
+
       if (completed) {
         this.completed();
       }
@@ -384,17 +394,20 @@ const App = {
     let completedSize = keys.reduce((previous, key) => {
                           return previous + this.state.files[key].written;
                         }, 0);
-
+    console.log('total', totalSize);
+    console.log('completed', completedSize);
     let raw = (completedSize / totalSize);
 
-    let percent = (raw * 100).toFixed(2);
+    this.percentVal = (raw * 100).toFixed(2);
+
+    if (this.percentVal == 100.00) return;
 
     let secsElapsed = (new Date() - this.state.startTime) / 1000;
 
     let speed = completedSize / secsElapsed;
 
     this.uiButton.setProgress(raw.toFixed(4));
-    this.percent.innerHTML = `${percent}%`;
+    this.percent.innerHTML = `${this.percentVal}%`;
 
     let text = humanize.filesize(completedSize);
     text += ' de ';
@@ -422,6 +435,7 @@ const App = {
 
     if (allSuccess) {
       this.uiButton.stop(1);
+      this.successScreen();
     } else {
       this.uiButton.stop(-1);
     }
@@ -434,6 +448,41 @@ const App = {
    */
   getName(path) {
     return path.split('/').slice(-1)[0];
+  },
+
+  successScreen() {
+    let check = document.getElementById('success_check');
+    let circle = document.getElementById('success_circle');
+    let backLink = document.getElementById('tornar');
+    let checkel = new SVGEl(check);
+    let circleel = new SVGEl(circle);
+    classie.add(this.success, 'show');
+    checkel.draw(0);
+    circleel.draw(0);
+    setTimeout(() => {
+      circle.classList.add('init');
+      circleel.draw(1);
+    }, 1000);
+    setTimeout(() => {
+      check.classList.add('init');
+      checkel.draw(1);
+    }, 1200);
+
+    backLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.clearDropzone();
+      classie.remove(this.success, 'show');
+      return false;
+    })
+  },
+
+  clearDropzone() {
+    this.progressInfo.innerHTML = '';
+    this.percent.innerHTML = '';
+    classie.remove(this.button, 'show');
+    classie.remove(this.confirm, 'show');
+    classie.remove(this.title, 'hide');
+    classie.add(this.wrapper, 'enter');
   }
 };
 

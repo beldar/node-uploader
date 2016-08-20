@@ -167,5 +167,6 @@
 
 	// add to global namespace
 	window.UIProgressButton = UIProgressButton;
+	window.SVGEl = SVGEl;
 
 })( window );

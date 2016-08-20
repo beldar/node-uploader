@@ -1,9 +1,9 @@
 'use strict';
 
-const globalTunnel  = require( 'global-tunnel' );
-
-//Looks for proxy env variables and modifies http headers
-globalTunnel.initialize();
+// const globalTunnel  = require( 'global-tunnel' );
+//
+// //Looks for proxy env variables and modifies http headers
+// globalTunnel.initialize();
 
 const electron = require('electron');
 // Module to control application life.
