@@ -1,5 +1,6 @@
 {
   "name": "boda-uploader",
+  "productName": "Boda Uploader",
   "version": "1.0.0",
   "description": "Electron S3 Uploader",
   "main": "main.js",
@@ -8,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
+    "url": "git+https://github.com/beldar/node-uploader.git"
   },
-  "author": "GitHub",
+  "author": "Marti Planellas",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron-prebuilt": "^0.37.0",
@@ -19,8 +20,7 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
-    "nodemon": "^1.9.1",
-    "global-tunnel": "JSainsburyPLC/global-tunnel#fbe3fe0"
+    "nodemon": "^1.9.1"
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.6",

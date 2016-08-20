@@ -1,10 +1,5 @@
 'use strict';
 
-// const globalTunnel  = require( 'global-tunnel' );
-//
-// //Looks for proxy env variables and modifies http headers
-// globalTunnel.initialize();
-
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
@@ -20,14 +15,15 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    titleBarStyle: 'hidden'
+    titleBarStyle: 'hidden',
+    icon: './logo-64.png'
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/frontend/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
